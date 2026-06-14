@@ -29,10 +29,21 @@ def main():
             "  python notebooks/example_topic_77_bitcoin_5min_walkthrough.py"
         )
 
+    mnemonic = os.environ.get("MNEMONIC", "").strip() or None
+    address = os.environ.get("WALLET_ADDRESS", "").strip() or None
+
+    if mnemonic and not address:
+        raise ValueError("WALLET_ADDRESS must be set when MNEMONIC is provided")
+
     wm = WorkerManager()
 
     print(f"Deploying worker for Topic {topic_id}...")
-    result = wm.deploy_worker(topic_id=topic_id, artifact_path=artifact)
+    result = wm.deploy_worker(
+        topic_id=topic_id,
+        artifact_path=artifact,
+        mnemonic=mnemonic,
+        address=address,
+    )
     print(f"  {result.message}")
     print(f"  Address: {result.address_assigned}")
 
