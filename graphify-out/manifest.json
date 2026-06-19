@@ -1,0 +1,267 @@
+{
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\.claude\\settings.json": {
+    "mtime": 1781875977.410777,
+    "ast_hash": "7bf81dca0376bde3a32244b82bc7cbc0",
+    "semantic_hash": "7bf81dca0376bde3a32244b82bc7cbc0"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\__init__.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "1acd037392e26a889ede68b9b1d183e4",
+    "semantic_hash": "1acd037392e26a889ede68b9b1d183e4"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\atlas_data_manager.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "4a3612ce3a4e5e0b93d123d158f59a0b",
+    "semantic_hash": "4a3612ce3a4e5e0b93d123d158f59a0b"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\base_data_manager.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "a1fe0b890e129a06ddc56545394fd4ef",
+    "semantic_hash": "a1fe0b890e129a06ddc56545394fd4ef"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\binance_data_manager.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "60e1f09ac569ac7e18624130da4a9476",
+    "semantic_hash": "60e1f09ac569ac7e18624130da4a9476"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\data_manager_factory.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "b1cabe63accc5d5070953c4db088f973",
+    "semantic_hash": "b1cabe63accc5d5070953c4db088f973"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\evaluation.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "02153d6db2e66d2ec71ceef58a6fea16",
+    "semantic_hash": "02153d6db2e66d2ec71ceef58a6fea16"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\topic_discovery.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "b066304602be9e62bd11d0bd443db769",
+    "semantic_hash": "b066304602be9e62bd11d0bd443db769"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\utils.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "d08ef4af052d14aa1a37e97ee0d576fb",
+    "semantic_hash": "d08ef4af052d14aa1a37e97ee0d576fb"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\web_dashboard.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "50dd4265cf324ae8cd182fa0eb75ad9d",
+    "semantic_hash": "50dd4265cf324ae8cd182fa0eb75ad9d"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\worker_manager.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "dea321133adf93f017c3abbfdfa3e495",
+    "semantic_hash": "dea321133adf93f017c3abbfdfa3e495"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\worker_monitor.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "66403aa35765c2e05f88835159d647d6",
+    "semantic_hash": "66403aa35765c2e05f88835159d647d6"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\worker_runtime.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "abd6046ebf53fc5c9e1672fe6a193407",
+    "semantic_hash": "abd6046ebf53fc5c9e1672fe6a193407"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\workerctl.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "239999197301afbbf175d4a92bc4305b",
+    "semantic_hash": "239999197301afbbf175d4a92bc4305b"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_forge_builder_kit\\workflow.py": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "cd5d50fce8a20195f5065cfad4208e28",
+    "semantic_hash": "cd5d50fce8a20195f5065cfad4208e28"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\deploy_worker.py": {
+    "mtime": 1781875090.148812,
+    "ast_hash": "6a276b3be4a9d8de544e464c5cdb1b4d",
+    "semantic_hash": "6a276b3be4a9d8de544e464c5cdb1b4d"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\deploy_worker_raw.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "503cf1f53e5be6b80e04f4ac47937066",
+    "semantic_hash": "503cf1f53e5be6b80e04f4ac47937066"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\example_topic_69_bitcoin_walkthrough.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "c7203965bdf6ac7d37bd6018941bc8ca",
+    "semantic_hash": "c7203965bdf6ac7d37bd6018941bc8ca"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\example_topic_77_bitcoin_5min_walkthrough.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "03d5ab751c7e385174d966da418bee34",
+    "semantic_hash": "03d5ab751c7e385174d966da418bee34"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\feature_engineering_example.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "b4076d2a8f7b62d502458d3a96ded0e3",
+    "semantic_hash": "b4076d2a8f7b62d502458d3a96ded0e3"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\pyproject.toml": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "5ed370bff0669e4dd8ec5df17a4f525d",
+    "semantic_hash": "5ed370bff0669e4dd8ec5df17a4f525d"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\conftest.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "4a02e898e87d796a430e0a2ee0828620",
+    "semantic_hash": "4a02e898e87d796a430e0a2ee0828620"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_data_managers.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "6f5ed9574fc94904cedbfeea175fd254",
+    "semantic_hash": "6f5ed9574fc94904cedbfeea175fd254"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_evaluation.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "9d5334cfb66609a49280aef58d46255e",
+    "semantic_hash": "9d5334cfb66609a49280aef58d46255e"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_feature_integrity.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "cb2bef8be54bde3dad6539461389771c",
+    "semantic_hash": "cb2bef8be54bde3dad6539461389771c"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_get_live_features_remote_only.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "98eae755de04e063e0bfc1d04c2643ab",
+    "semantic_hash": "98eae755de04e063e0bfc1d04c2643ab"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_live_features_consistency.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "7a0ddfd84a77e8a7d53189d260852906",
+    "semantic_hash": "7a0ddfd84a77e8a7d53189d260852906"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_target_integrity.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "eda42f8247855927624943480431c7a1",
+    "semantic_hash": "eda42f8247855927624943480431c7a1"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_worker_manager.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "b1ba61de50f81a39c53865d747fdda5e",
+    "semantic_hash": "b1ba61de50f81a39c53865d747fdda5e"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_worker_monitor.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "d4bdb76ac85c1a76730adbf0e34f3f55",
+    "semantic_hash": "d4bdb76ac85c1a76730adbf0e34f3f55"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\test_worker_runtime.py": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "f732164e6c34fd4adfb993495901b3c0",
+    "semantic_hash": "f732164e6c34fd4adfb993495901b3c0"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\.github\\workflows\\release.yml": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "bb7ed6b73b11d25de1e47e71eb88b1c9",
+    "semantic_hash": "bb7ed6b73b11d25de1e47e71eb88b1c9"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\AGENTS.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "33d64daec21aa34bcbd00f7362c762c8",
+    "semantic_hash": "33d64daec21aa34bcbd00f7362c762c8"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\AGENT_NOTES.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "525c9b6f408adb4ae43403a2fe235452",
+    "semantic_hash": "525c9b6f408adb4ae43403a2fe235452"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\CLAUDE.md": {
+    "mtime": 1781875977.4097764,
+    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
+    "semantic_hash": "8a6643a420fdad6bfb583523bc6cef16"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\README.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "1669fd0bc1b943fe85a39dbade666429",
+    "semantic_hash": "1669fd0bc1b943fe85a39dbade666429"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\SKILLS.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "c44432c1a533c9fc50be2b241e0f2dc8",
+    "semantic_hash": "c44432c1a533c9fc50be2b241e0f2dc8"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\README.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "15b31e9387fdaa7150060da8907166ae",
+    "semantic_hash": "15b31e9387fdaa7150060da8907166ae"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\hypothesis-driven\\SKILL.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "905c8512cf26586cc46451e87b286fbf",
+    "semantic_hash": "905c8512cf26586cc46451e87b286fbf"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\robustness-first\\SKILL.md": {
+    "mtime": 1781875064.8271196,
+    "ast_hash": "4214866842b269a3348da0046bf213d6",
+    "semantic_hash": "4214866842b269a3348da0046bf213d6"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\shared\\feature-engineering.md": {
+    "mtime": 1781875064.84322,
+    "ast_hash": "ae51c8305ef579c86233e4b35a63452d",
+    "semantic_hash": "ae51c8305ef579c86233e4b35a63452d"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\shared\\loss-design.md": {
+    "mtime": 1781875064.84322,
+    "ast_hash": "b69d89465aef41c82516418aff259c81",
+    "semantic_hash": "b69d89465aef41c82516418aff259c81"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\shared\\methodology.md": {
+    "mtime": 1781875064.84322,
+    "ast_hash": "71828f8cacf04f9980d8cb0e04b71887",
+    "semantic_hash": "71828f8cacf04f9980d8cb0e04b71887"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\shared\\validation-framework.md": {
+    "mtime": 1781875064.84322,
+    "ast_hash": "6fd74a1b615fbf6e37f905162d58e4a7",
+    "semantic_hash": "6fd74a1b615fbf6e37f905162d58e4a7"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\allora_research_model_skills\\signal-discovery\\SKILL.md": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "c9fe1f96b296f1d671b23de51fa3478b",
+    "semantic_hash": "c9fe1f96b296f1d671b23de51fa3478b"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\environment.yml": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "b7dfc052eec15453f622b7c183d273dc",
+    "semantic_hash": "b7dfc052eec15453f622b7c183d273dc"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\requirements_worker_runtime.txt": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "28e580358dbd2774f796264501205c2a",
+    "semantic_hash": "28e580358dbd2774f796264501205c2a"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\requirements.txt": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "d2991f9ee9b42c4082587d53c1a383f9",
+    "semantic_hash": "d2991f9ee9b42c4082587d53c1a383f9"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\skills\\allora-data-exploration\\SKILL.md": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "5c3ab16fb2798d632950938fa514363e",
+    "semantic_hash": "5c3ab16fb2798d632950938fa514363e"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\skills\\allora-model-builder\\SKILL.md": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "31f52ee9177f0be3547cfafa2cd617e5",
+    "semantic_hash": "31f52ee9177f0be3547cfafa2cd617e5"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\skills\\allora-worker-manager\\SKILL.md": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "e0d120461c02935bd3132a81140344ee",
+    "semantic_hash": "e0d120461c02935bd3132a81140344ee"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\tests\\README.md": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "d0fd3551170bed2127d89dc9ae317cde",
+    "semantic_hash": "d0fd3551170bed2127d89dc9ae317cde"
+  },
+  "C:\\Users\\Mohammad Sadegh\\Documents\\Glab\\repos\\allora-forge-builder-kit\\notebooks\\base_features_visualization.png": {
+    "mtime": 1781875064.8459263,
+    "ast_hash": "78ce3ef412f70139335ac516f3283744",
+    "semantic_hash": "78ce3ef412f70139335ac516f3283744"
+  }
+}

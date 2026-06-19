@@ -75,3 +75,10 @@ managed_artifacts/
 artifacts/
 notebooks/artifacts/
 notebooks/runs/
+
+# Local Claude Code config (machine-specific)
+.claude/
+
+# graphify: keep graph outputs (graph.json, GRAPH_REPORT.md, ...), drop the
+# regenerable AST/semantic caches
+graphify-out/cache/
