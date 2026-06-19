@@ -17,11 +17,26 @@ forge_models/
     calibration.py   # zptae_proxy, aspect_ratio, tune_shrink (shrinkage λ)
     export.py        # export_predict(): atomic, verified, self-contained .pkl
     runner.py        # TopicConfig + run(): the shared train/eval/export/predict flow
+  discovery.py       # find train_topic_<id>.py scripts + artifact paths (one source)
   train_topic_72.py  # 1h BTC/USD  (config only)
   ...
+  train_all.py       # train every (or a subset of) topic(s)
+  deploy_all.py      # deploy a worker for every topic that has a trained model
 models/
   predict_topic_72.pkl   # written by the script (git-ignored)
 ```
+
+## Run everything
+
+```bash
+python forge_models/train_all.py --skip-existing      # build all models
+python forge_models/deploy_all.py                      # deploy all (set wallet env first)
+python forge_models/train_all.py --list                # discovered topics
+python forge_models/deploy_all.py --topics 72,73 --dry-run
+```
+
+Both auto-discover topics from the `train_topic_*.py` filenames — adding a topic
+needs no edits to them.
 
 ## Topics
 
@@ -72,21 +87,33 @@ training script's `__main__`. The worker needs only the runtime deps
 
 ## Adding a new competition
 
-1. Copy a similar `train_topic_<id>.py` (a 1h/8h one, or a 7d one if the horizon
-   spans many bars) and change the `TopicConfig` fields: `topic_id`, `asset`,
-   `horizon_label`, `interval`, `target_bars`, the ticker lists, and the
-   warn-only `max_plausible_logret`.
-2. Horizon = `interval` × `target_bars`. Keep `interval` at the topic's *update*
-   cadence (so live features refresh that often) and set `target_bars` to span
-   the prediction horizon — e.g. `1h`×168 for a 7d-ahead, hourly-updated topic.
-   `vol_scale` is derived as `√target_bars` automatically.
-3. Long horizons (target_bars ≫ 1): pass a `feature_kw` with longer
-   `ret_lags`/`vol_windows` (keep `6,24,96` so the rv_ratio block stays valid)
-   and bump `input_bars` ≥ `max(ret_lags)+1`. `run()` validates this.
-4. That's it — `run(TOPIC)` handles backfill, walk-forward selection,
-   calibration, the live smoke test, and the self-contained export. Only put
-   genuinely new shared logic in `common/` (e.g. a non-log-return target would
-   warrant a runner option), never copy the flow back into a script.
+**The common case — another asset or horizon.** Copy a similar
+`train_topic_<id>.py` and change the `TopicConfig` identity fields: `topic_id`,
+`asset`, `horizon_label`, `interval`, `target_bars`, the ticker lists, and the
+warn-only `max_plausible_logret`. That's the whole job — `train_all.py` /
+`deploy_all.py` discover the new file automatically (no registry to edit).
+
+- Horizon = `interval` × `target_bars`. Keep `interval` at the topic's *update*
+  cadence (so live features refresh that often) and set `target_bars` to span
+  the prediction horizon — e.g. `1h`×168 for a 7d-ahead, hourly-updated topic.
+  `vol_scale` derives as `√target_bars` automatically.
+- Long horizons (target_bars ≫ 1): pass a `feature_kw` with longer
+  `ret_lags`/`vol_windows` (keep `6,24,96` so the rv_ratio block stays valid)
+  and bump `input_bars` ≥ `max(ret_lags)+1`. `run()` validates this.
+
+**A genuinely different competition.** `TopicConfig` has hooks so you extend
+behavior without forking `runner.py` — all default to today's behavior:
+
+| Need | Hook |
+|------|------|
+| Different features (on-chain, sentiment, multi-asset) | `feature_fn=` your builder. Contract: `fn(C, H, L, V, when, **feature_kw) -> (DataFrame X, ndarray sigma_per_bar)`. Define it in the topic script (run as `__main__`) or any importable module — `run()` registers its module for pickle-by-value so the exported `.pkl` stays self-contained. |
+| Tune the model search per topic | `families=`, `learning_rates=`, `max_depths=`, `num_leaves=`, `n_estimators_max=`, `n_estimators_checkpoints=`, `n_splits=` |
+| Different LGBM params / objective | `model_overrides=` (both families) and `reg_overrides=` (regressor only, e.g. a non-Huber objective) |
+
+**Beyond that** (a non-log-return target, a different loss/calibration): that's
+the one place to edit `common/runner.py` / `common/calibration.py` directly —
+add the seam there so every topic benefits, rather than copying the flow back
+into a script.
 
 > Whitelist targets (log-return topics): DA > 0.55, Pearson r > 0.05,
 > WRMSE improvement vs zero > 10%, WZPTAE improvement vs zero > 20%,

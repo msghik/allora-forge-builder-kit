@@ -29,10 +29,12 @@ DATA_SOURCE, LIVE_CACHE_TTL, PREDICT_PKL.
 """
 from __future__ import annotations
 
+import inspect
 import os
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -45,7 +47,7 @@ from .features import matrices_from_workflow_df, compact_features
 from .calibration import aspect_ratio, tune_shrink
 from .export import export_predict
 
-# --- model search (small, conservative grid; shared by all topics) -------
+# --- default model search (small, conservative grid; per-topic overridable) --
 N_SPLITS = 3
 N_ESTIMATORS_MAX = 800
 N_ESTIMATORS_CHECKPOINTS = [200, 400, 800]
@@ -56,7 +58,24 @@ NUM_LEAVES = [15, 31]
 
 @dataclass
 class TopicConfig:
-    """Everything that distinguishes one log-return topic from another."""
+    """Everything that distinguishes one log-return topic from another.
+
+    Adding a competition that is just another asset/horizon: set the identity
+    fields + horizon (interval x target_bars) and you're done. The hooks below
+    exist so a *different* competition can be slotted in without forking run():
+
+    * ``feature_fn`` — swap the feature builder. Contract: same signature and
+      return as ``compact_features`` — ``fn(C, H, L, V, when, **feature_kw) ->
+      (DataFrame X, ndarray sigma_per_bar)``. It is called identically in
+      training and predict(). To stay deployable, define a custom builder in the
+      topic's ``train_topic_<id>.py`` (run as __main__, so cloudpickle captures
+      it by value) or in an importable module — run() registers that module for
+      pickle-by-value automatically.
+    * search/model overrides — ``families``, ``model_overrides`` (merged into the
+      shared LGBM params for both families), ``reg_overrides`` (regressor only,
+      e.g. a different objective), and the grid fields. All default to the
+      module-level constants, so existing topics are unaffected.
+    """
     topic_id: int
     asset: str                       # e.g. "BTC" — display only
     interval: str                    # workflow bar size, e.g. "1h", "8h"
@@ -69,8 +88,20 @@ class TopicConfig:
     days_of_history: int = 1000
     half_life_days: float = 270.0
     live_cache_ttl: float = 90.0
-    feature_kw: dict = field(default_factory=dict)   # -> compact_features kwargs
+    feature_kw: dict = field(default_factory=dict)   # -> feature_fn kwargs
     vol_scale: float | None = None   # None -> sqrt(target_bars)
+
+    # --- extension hooks (default to today's behavior) ---
+    feature_fn: Callable = compact_features
+    families: tuple[str, ...] = ("reg", "clf")
+    model_overrides: dict = field(default_factory=dict)   # merged into FIXED_COMMON
+    reg_overrides: dict = field(default_factory=dict)     # merged into REG_EXTRA
+    n_splits: int | None = None
+    n_estimators_max: int | None = None
+    n_estimators_checkpoints: list | None = None
+    learning_rates: list | None = None
+    max_depths: list | None = None
+    num_leaves: list | None = None
 
     def resolved_vol_scale(self) -> float:
         return float(np.sqrt(self.target_bars)) if self.vol_scale is None else float(self.vol_scale)
@@ -94,7 +125,7 @@ def run(cfg: TopicConfig) -> str:
     days_of_history = int(os.environ.get("DAYS_OF_HISTORY", cfg.days_of_history))
     half_life_days = float(os.environ.get("HALF_LIFE_DAYS", cfg.half_life_days))
     vol_norm = os.environ.get("VOL_NORM_TARGET", "1") != "0"
-    families = tuple(os.environ.get("FAMILIES", "reg,clf").split(","))
+    families = tuple(os.environ.get("FAMILIES", ",".join(cfg.families)).split(","))
     strict_aspect = os.environ.get("STRICT_ASPECT", "0") != "0"
     live_ttl = float(os.environ.get("LIVE_CACHE_TTL", cfg.live_cache_ttl))
     out_pkl = os.environ.get("PREDICT_PKL", str(model_path(cfg.topic_id)))
@@ -102,7 +133,18 @@ def run(cfg: TopicConfig) -> str:
     interval = cfg.interval
     target_bars = cfg.target_bars
     feature_kw = dict(cfg.feature_kw)
+    feature_fn = cfg.feature_fn
     vol_scale = cfg.resolved_vol_scale()
+
+    # search space + model params (per-topic overrides, else module defaults)
+    n_splits = cfg.n_splits or N_SPLITS
+    n_estimators_max = cfg.n_estimators_max or N_ESTIMATORS_MAX
+    n_estimators_checkpoints = cfg.n_estimators_checkpoints or N_ESTIMATORS_CHECKPOINTS
+    learning_rates = cfg.learning_rates or LEARNING_RATES
+    max_depths = cfg.max_depths or MAX_DEPTHS
+    num_leaves_grid = cfg.num_leaves or NUM_LEAVES
+    fixed = {**FIXED_COMMON, **cfg.model_overrides}
+    reg_extra = {**REG_EXTRA, **cfg.reg_overrides}
 
     print("=" * 78)
     print(f"Topic {cfg.topic_id}: {cfg.horizon_label} {cfg.asset}/USD log-return "
@@ -139,7 +181,7 @@ def run(cfg: TopicConfig) -> str:
     df_all = df_all.dropna(subset=["target"]).reset_index(drop=True)
 
     C, H, L, V, when = matrices_from_workflow_df(df_all, input_bars)
-    X, sigma_bar = compact_features(C, H, L, V, when, **feature_kw)
+    X, sigma_bar = feature_fn(C, H, L, V, when, **feature_kw)
     sigma_h = sigma_bar * vol_scale        # per-bar std -> horizon std
     feature_cols = list(X.columns)
     y_raw = df_all["target"].to_numpy(dtype=float)
@@ -161,29 +203,29 @@ def run(cfg: TopicConfig) -> str:
 
     print("[3/5] Walk-forward grid search (selecting on calibrated ZPTAE-proxy improvement) ...")
     # gap=target_bars so a test fold's targets never overlap train features.
-    tscv = TimeSeriesSplit(n_splits=N_SPLITS, gap=target_bars)
+    tscv = TimeSeriesSplit(n_splits=n_splits, gap=target_bars)
     evaluator = PerformanceEvaluator()
     results = []
     n = 0
     for family in families:
-        for lr in LEARNING_RATES:
-            for depth in MAX_DEPTHS:
-                for leaves in NUM_LEAVES:
+        for lr in learning_rates:
+            for depth in max_depths:
+                for leaves in num_leaves_grid:
                     fold_models = []
                     for train_idx, test_idx in tscv.split(X):
                         if family == "clf":
-                            m = LGBMClassifier(n_estimators=N_ESTIMATORS_MAX, learning_rate=lr,
-                                               max_depth=depth, num_leaves=leaves, **FIXED_COMMON)
+                            m = LGBMClassifier(n_estimators=n_estimators_max, learning_rate=lr,
+                                               max_depth=depth, num_leaves=leaves, **fixed)
                             m.fit(X.iloc[train_idx], y_sign[train_idx],
                                   sample_weight=weights[train_idx])
                         else:
-                            m = LGBMRegressor(n_estimators=N_ESTIMATORS_MAX, learning_rate=lr,
+                            m = LGBMRegressor(n_estimators=n_estimators_max, learning_rate=lr,
                                               max_depth=depth, num_leaves=leaves,
-                                              **FIXED_COMMON, **REG_EXTRA)
+                                              **fixed, **reg_extra)
                             m.fit(X.iloc[train_idx], y_train_space[train_idx],
                                   sample_weight=weights[train_idx])
                         fold_models.append((m, test_idx))
-                    for n_est in N_ESTIMATORS_CHECKPOINTS:
+                    for n_est in n_estimators_checkpoints:
                         n += 1
                         pred = np.full(len(X), np.nan)
                         for m, test_idx in fold_models:
@@ -236,10 +278,10 @@ def run(cfg: TopicConfig) -> str:
               max_depth=best["max_depth"], num_leaves=best["num_leaves"])
     family = best["family"]
     if family == "clf":
-        final_model = LGBMClassifier(**hp, **FIXED_COMMON)
+        final_model = LGBMClassifier(**hp, **fixed)
         final_model.fit(X, y_sign, sample_weight=weights)
     else:
-        final_model = LGBMRegressor(**hp, **FIXED_COMMON, **REG_EXTRA)
+        final_model = LGBMRegressor(**hp, **fixed, **reg_extra)
         final_model.fit(X, y_train_space, sample_weight=weights)
 
     # --- values captured by the predict() closure (all picklable) ---
@@ -311,7 +353,7 @@ def run(cfg: TopicConfig) -> str:
             _cache["data_ts"] = now
 
         Cl, Hl, Ll, Vl, wl = matrices_from_workflow_df(live_row, n_bars)
-        X_live, sigma_live_bar = compact_features(Cl, Hl, Ll, Vl, wl, **feature_kw)
+        X_live, sigma_live_bar = feature_fn(Cl, Hl, Ll, Vl, wl, **feature_kw)
         sigma_live_h = float(sigma_live_bar[0]) * vol_scale
         if family == "clf":
             p_up = float(final_model.predict_proba(X_live[feature_cols])[0, 1])
@@ -338,7 +380,10 @@ def run(cfg: TopicConfig) -> str:
     _live["wf"] = None
     _cache.clear()
 
-    out = export_predict(predict, out_pkl)
+    # If a custom feature_fn lives in an importable module, register it for
+    # pickle-by-value so the artifact stays self-contained (compact_features and
+    # __main__-defined builders are already handled by export_predict).
+    out = export_predict(predict, out_pkl, extra_by_value_modules=[inspect.getmodule(feature_fn)])
     print(f"\nSaved {out} (topic={topic_id}, family={family}, live data via '{ds_name}').")
     print("Deploy with your registered Forge wallet:")
     print(f"  PREDICT_PKL={out} TOPIC_ID={topic_id} python notebooks/deploy_worker.py")
