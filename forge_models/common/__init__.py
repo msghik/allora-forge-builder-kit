@@ -10,6 +10,7 @@ from .data import load_api_key, resolve_data_source
 from .features import matrices_from_workflow_df, compact_features
 from .calibration import power_tanh, zptae_proxy, aspect_ratio, tune_shrink
 from .export import export_predict
+from .runner import TopicConfig, run
 
 __all__ = [
     "REPO_ROOT", "MODELS_DIR", "model_path",
@@ -19,4 +20,5 @@ __all__ = [
     "matrices_from_workflow_df", "compact_features",
     "power_tanh", "zptae_proxy", "aspect_ratio", "tune_shrink",
     "export_predict",
+    "TopicConfig", "run",
 ]
