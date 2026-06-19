@@ -1,0 +1,2 @@
+# Trained Forge model artifacts land here as predict_topic_<id>.pkl.
+# The .pkl files themselves are git-ignored; this keeps the folder in git.
