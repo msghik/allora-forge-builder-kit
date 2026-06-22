@@ -26,15 +26,24 @@ from . import config as _config
 def export_predict(predict_fn, out_path, extra_by_value_modules=()) -> Path:
     """Pickle ``predict_fn`` to ``out_path`` atomically, self-contained.
 
-    ``extra_by_value_modules`` lets a topic script register additional shared
-    modules whose functions its predict closure calls (rarely needed — the
-    feature helpers are registered automatically).
+    ``extra_by_value_modules`` lets a caller register additional shared modules
+    whose functions the predict closure calls (e.g. a custom feature builder);
+    the feature/config helpers are always registered. ``None`` entries and the
+    ``__main__``/``builtins`` modules are ignored — functions defined in the
+    running script (``__main__``) are already captured by value by cloudpickle —
+    and duplicates are de-duplicated so registration stays balanced.
     """
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    by_value = [_features, _config, *extra_by_value_modules]
-    for mod in by_value:
+    by_value = {}
+    for mod in (_features, _config, *extra_by_value_modules):
+        name = getattr(mod, "__name__", None)
+        if name and name not in ("__main__", "builtins"):
+            by_value.setdefault(name, mod)
+    mods = list(by_value.values())
+
+    for mod in mods:
         cloudpickle.register_pickle_by_value(mod)
     try:
         tmp_path = out_path.with_suffix(out_path.suffix + ".tmp")
@@ -44,6 +53,9 @@ def export_predict(predict_fn, out_path, extra_by_value_modules=()) -> Path:
             pickle.load(f)              # reload check before promoting
         os.replace(tmp_path, out_path)
     finally:
-        for mod in by_value:
-            cloudpickle.unregister_pickle_by_value(mod)
+        for mod in mods:
+            try:
+                cloudpickle.unregister_pickle_by_value(mod)
+            except Exception:
+                pass
     return out_path
